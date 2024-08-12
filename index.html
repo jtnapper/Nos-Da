@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Da - Background Video</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-start; /* Align items to the top */
+            justify-content: flex-start; /* Align items to the left */
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            transform: translate(-50%, -50%);
+            background-size: cover;
+        }
+        #ui-container {
+            position: absolute;
+            top: 20px; /* Distance from the top */
+            left: 20px; /* Distance from the left */
+        }
+        #trackTitle {
+            font-size: 1.5em; /* Adjusted font size */
+            margin-bottom: 10px;
+        }
+        #skipButton {
+            padding: 8px 16px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid white;
+            color: white;
+        }
+        #skipButton:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Video -->
+    <video autoplay muted loop>
+        <source src="video/my-video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- UI Container for Title and Button -->
+    <div id="ui-container">
+        <!-- Track Title Display -->
+        <div id="trackTitle">Now Playing: </div>
+
+        <!-- Skip Button -->
+        <button id="skipButton">Skip to Next Track</button>
+    </div>
+
+    <!-- Audio Player -->
+    <audio id="audioPlayer" autoplay></audio>
+
+    <script>
+        // Array of audio files and their titles
+        const audioFiles = [
+            { src: 'audio/track1.mp3', title: "God's Mercy - Peter Milsom" },
+            { src: 'audio/track2.mp3', title: 'Amazing Grace Trash Piano' },
+            
+        ];
+
+        // Function to play random audio
+        function playRandomAudio() {
+            const randomIndex = Math.floor(Math.random() * audioFiles.length);
+            playAudioAtIndex(randomIndex);
+        }
+
+        // Function to play audio at specific index and update title
+        function playAudioAtIndex(index) {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const trackTitle = document.getElementById('trackTitle');
+            audioPlayer.src = audioFiles[index].src;
+            trackTitle.textContent = `${audioFiles[index].title}`;
+            audioPlayer.play();
+        }
+
+        // Event listener to play next random audio when the current one ends
+        document.getElementById('audioPlayer').addEventListener('ended', playRandomAudio);
+
+        // Event listener for the skip button
+        document.getElementById('skipButton').addEventListener('click', playRandomAudio);
+
+        // Play the first random audio on page load
+        playRandomAudio();
+    </script>
+
+</body>
+</html>
